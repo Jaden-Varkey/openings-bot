@@ -2,7 +2,10 @@ name: watch internships
 
 on:
   schedule:
-    # Every 5 minutes. GitHub may delay scheduled runs under load; that's fine.
+    # Every 5 minutes. NOTE: on a PRIVATE repo this uses ~288 free Actions
+    # minutes/day and exhausts the 2,000/month free allowance in ~1 week; make
+    # the repo PUBLIC (unlimited free minutes) to sustain this cadence, or run
+    # on a VM under cron. GitHub may delay scheduled runs under load; that's fine.
     - cron: "*/5 * * * *"
   workflow_dispatch: {}   # manual "Run workflow" button for testing
 
@@ -43,6 +46,9 @@ jobs:
 
       - name: Check for new postings
         env:
+          # Public-repo Actions logs are world-readable — keep company names and
+          # job titles/URLs out of stdout (full details still go to your email).
+          REDACT_LOGS: "1"
           COMPANIES_YAML: ${{ secrets.COMPANIES_YAML }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}

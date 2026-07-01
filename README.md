@@ -220,6 +220,12 @@ Nothing personal is ever stored in the repo:
   company names never appear in git history (a public commit history of names
   could otherwise be brute-forced even if hashed).
 - **Credentials** → encrypted Secrets, masked in logs.
+- **Run logs** → on a **public** repo, the Actions run logs are world-readable.
+  The workflow sets `REDACT_LOGS=1`, so stdout shows only a stable hash per
+  company (`company:961a6062`) and match *counts* — never company names, job
+  titles, or URLs. Those full details are delivered privately to your email
+  only. (Redaction auto-enables in any GitHub Actions run; set `REDACT_LOGS=0`
+  to see full detail, e.g. on a private repo. Local runs are verbose by default.)
 
 > Edge case: if the Actions cache is ever evicted (rare for a job running every
 > 5 min, since constant access keeps it warm), the next run re-seeds silently —
