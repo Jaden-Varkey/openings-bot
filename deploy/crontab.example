@@ -1,0 +1,13 @@
+# Install with:  crontab -e   (then paste one block below)
+# Replace /home/ubuntu/openings-bot with your actual path.
+
+# DEFAULT — every 2 minutes. Worst-case detection ~2.5 min, and even if one tick
+# is missed the next is ~4 min, still under your 5-min ceiling. Lowest API load.
+*/2 * * * * /home/ubuntu/openings-bot/run.sh >> /home/ubuntu/openings-bot/cron.log 2>&1
+
+# OPTIONAL — staggered ~1-minute coverage (your "offset" idea): two independent
+# every-2-min jobs, 1 minute apart, so a posting at 9:00 is caught by ~9:01.
+# Doubles request volume — only enable if you want the tighter window and are OK
+# with ~1 poll/min per company.
+#   */2     * * * * /home/ubuntu/openings-bot/run.sh >> /home/ubuntu/openings-bot/cron.log 2>&1
+#   1-59/2  * * * * /home/ubuntu/openings-bot/run.sh >> /home/ubuntu/openings-bot/cron.log 2>&1

@@ -1,0 +1,61 @@
+name: watch internships
+
+on:
+  schedule:
+    # Every 5 minutes. GitHub may delay scheduled runs under load; that's fine.
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}   # manual "Run workflow" button for testing
+
+# Read-only checkout is all we need: the company list comes from a Secret and
+# seen-state lives in the Actions cache, so nothing is ever committed back.
+permissions:
+  contents: read
+
+# Never let two runs overlap (they'd race on the cached state).
+concurrency:
+  group: watch-internships
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Restore previously-seen job ids. The unique save key below means each run
+      # writes a fresh cache entry; restore-keys grabs the most recent prior one.
+      - name: Restore seen-state
+        uses: actions/cache/restore@v4
+        with:
+          path: state
+          key: seen-state-${{ github.run_id }}
+          restore-keys: |
+            seen-state-
+
+      - name: Check for new postings
+        env:
+          COMPANIES_YAML: ${{ secrets.COMPANIES_YAML }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m watcher.main --once
+
+      # Persist updated state for the next run. Always save (even if the check
+      # step failed) so a transient error doesn't lose the baseline.
+      - name: Save seen-state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: state
+          key: seen-state-${{ github.run_id }}
