@@ -1,0 +1,82 @@
+# Template company list. This example file IS committed; your real list is NOT.
+#
+# Two ways to use it:
+#   • Local testing: copy this to `companies.yaml` (gitignored) and edit it, then
+#     run `python -m watcher.main --dry-run`.
+#   • In GitHub Actions: paste your real list as the value of the COMPANIES_YAML
+#     repository Secret (Settings -> Secrets and variables -> Actions). The repo
+#     stays public but your list is never committed.
+#
+# Each entry needs a `name`, a `platform`, and the platform's identifier:
+#   greenhouse / lever / ashby / smartrecruiters  ->  token  (the company slug)
+#   workday                                        ->  tenant, dc, site
+#
+# Find the token in the careers URL, e.g. boards.greenhouse.io/EXAMPLE -> EXAMPLE.
+# For workday see the README ("Adding a Workday company").
+#
+# Optional per-company `keywords:` overrides any of the three default lists.
+
+defaults:
+  keywords:
+    include:
+      - software engineer
+      - software developer
+      - software engineering
+      - software development
+      - software dev engineer   # some employers' "SDE" phrasing
+      - swe
+      - sde
+    require:
+      - intern
+    exclude:
+      - senior
+      - staff
+      - principal
+      - manager
+      - director
+      # Season/year gate (edit to taste). Drops other cycles labeled in the
+      # title; postings with no season/year still pass through.
+      - "2023"
+      - "2024"
+      - "2025"
+      - "2026"
+      - "2028"
+      - fall
+      - autumn
+      - winter
+      - spring
+
+companies:
+  # ----- generic examples; replace with your own list -----
+  - name: ExampleCo
+    platform: greenhouse
+    token: exampleco
+
+  - name: AnotherCo
+    platform: greenhouse
+    token: anotherco
+
+  # - name: LeverCo
+  #   platform: lever
+  #   token: leverco
+
+  # - name: AshbyCo
+  #   platform: ashby
+  #   token: ashbyco
+
+  # - name: SmartRecruitersCo
+  #   platform: smartrecruiters
+  #   token: SmartRecruitersCo
+
+  # - name: WorkdayCo
+  #   platform: workday
+  #   tenant: someco
+  #   dc: wd1
+  #   site: External_Career_Site
+
+  # github_list reads a bot-maintained community list on GitHub (covers bespoke
+  # career sites that can't be polled directly):
+  # - name: Bespoke sites (community GitHub list)
+  #   platform: github_list
+  #   url: https://raw.githubusercontent.com/<owner>/<repo>/<branch>/path/to/listings.json
+  #   companies: [CompanyA, CompanyB]   # omit to watch ALL in the list
