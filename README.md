@@ -1,6 +1,6 @@
 # openings-bot 📬
 
-[![watch internships](https://github.com/Jaden-Varkey/openings-bot/actions/workflows/watch.yml/badge.svg)](https://github.com/Jaden-Varkey/openings-bot/actions/workflows/watch.yml)
+[![CI](https://github.com/Jaden-Varkey/openings-bot/actions/workflows/watch.yml/badge.svg)](https://github.com/Jaden-Varkey/openings-bot/actions/workflows/watch.yml)
 [![License](https://img.shields.io/github/license/Jaden-Varkey/openings-bot)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 
