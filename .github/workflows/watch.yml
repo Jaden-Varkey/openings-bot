@@ -1,4 +1,4 @@
-name: watch internships
+name: CI
 
 on:
   schedule:
