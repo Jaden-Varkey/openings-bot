@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from watcher.filters import DEFAULT_KEYWORDS, title_matches
 
-# (title, should_match_under_the_default_2027_keywords)
+# (title, should_match_under_the_default_keywords)
 CASES: list[tuple[str, bool]] = [
     # --- should ALERT ---
     ("Software Engineer, Intern", True),

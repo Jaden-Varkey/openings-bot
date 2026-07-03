@@ -39,8 +39,9 @@ DEFAULT_KEYWORDS: dict[str, list[str]] = {
     "exclude": [
         # seniority
         "senior", "staff", "principal", "manager", "director",
-        # non-(Summer 2027) cycles: drop clearly-labeled other terms, but keep
-        # postings with no season/year in the title (most new ones now = 2027).
+        # Wrong-cycle postings: drop titles clearly labeled for other seasons or
+        # years, but keep postings with no season/year in the title. Adjust these
+        # to your own target cycle (add the years/seasons you want to exclude).
         "2023", "2024", "2025", "2026", "2028",
         "fall", "autumn", "winter", "spring",
     ],
